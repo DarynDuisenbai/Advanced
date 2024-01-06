@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <!-- Подключение Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="container mt-5">
+<h1 class="mb-4">Registration</h1>
+
+<form id="registrationForm">
+    <div class="form-group">
+        <label for="id">ID:</label>
+        <input type="text" class="form-control" id="id" name="id" required>
+    </div>
+
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+
+    <div class="form-group">
+        <label for="age">Age:</label>
+        <input type="text" class="form-control" id="age" name="age" required>
+    </div>
+
+    <div class="form-group">
+        <label for="street">Street:</label>
+        <input type="text" class="form-control" id="street" name="street" required>
+    </div>
+
+    <div class="form-group">
+        <label for="city">City:</label>
+        <input type="text" class="form-control" id="city" name="city" required>
+    </div>
+
+    <div class="form-group">
+        <label for="country">Country:</label>
+        <input type="text" class="form-control" id="country" name="country" required>
+    </div>
+
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="text" class="form-control" id="email" name="email" required>
+    </div>
+
+    <div class="form-group">
+        <label for="phone">Phone:</label>
+        <input type="text" class="form-control" id="phone" name="phone" required>
+    </div>
+
+    <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="isStudent" name="isStudent">
+        <label class="form-check-label" for="isStudent">Is Student</label>
+    </div>
+
+    <div class="form-group">
+        <label for="grades">Grades (comma-separated):</label>
+        <input type="text" class="form-control" id="grades" name="grades" required>
+    </div>
+
+    <div class="form-group">
+        <label for="registeredAt">Registered At (DD-MM-YY):</label>
+        <input type="text" class="form-control" id="registeredAt" name="registeredAt" placeholder="31-05-15" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<!-- Подключение Bootstrap JavaScript и Popper.js (необходим для работы некоторых Bootstrap компонентов) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    document.getElementById('registrationForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const formData = {
+            person: {
+                id: document.getElementById('id').value,
+                name: document.getElementById('name').value,
+                age: document.getElementById('age').value,
+                address: {
+                    street: document.getElementById('street').value,
+                    city: document.getElementById('city').value,
+                    country: document.getElementById('country').value
+                },
+                contacts: [
+                    {
+                        type: 'email',
+                        value: document.getElementById('email').value
+                    },
+                    {
+                        type: 'phone',
+                        value: document.getElementById('phone').value
+                    }
+                ],
+                isStudent: document.getElementById('isStudent').checked,
+                grades: document.getElementById('grades').value.split(',').map(Number),
+                registeredAt: document.getElementById('registeredAt').value
+            },
+            status: 'active'
+        };
+
+        fetch('/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    });
+</script>
+</body>
+</html>
