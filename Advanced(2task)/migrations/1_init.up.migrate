@@ -1,0 +1,7 @@
+-- +migrate Up
+CREATE TABLE users (
+  _id STRING PRIMARY KEY,
+  name STRING,
+  email STRING,
+  age INT
+);
